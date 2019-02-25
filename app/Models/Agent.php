@@ -7,8 +7,9 @@ use Illuminate\Database\eloquent\softDeletes;
 
 class Agent extends Model
 {
-    protected $fillable = ['user_id', 'company_id'];
     use softDeletes;
+    protected $fillable = ['user_id', 'company_id'];
+    
     public function user(){
         $this->belongsTo('App\User');
     }

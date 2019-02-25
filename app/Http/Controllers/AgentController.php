@@ -12,39 +12,47 @@ use Hash;
 
 class AgentController extends Controller
 {
-    public function index() {
+    public static function index() {
         $agent = DB::table('users')
             ->join('agents', 'users.id', '=', 'agents.user_id')
             ->select('users.*')
             ->get();
-        dd($agent);
+        return $agent;
+        //dd($agent);
     }
+    public function show($id) {
+        dd(user::findOrfail($id));
+    }   
     public function create(){
-        return view('form');
+        return view('form')->with('companies',company::pluck('name'));
     }
     public function store(AgentStoreRequest $request) {
         $user = new user();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->name = Hash::make($request->input('password'));
+        $user->password = Hash::make($request->input('password'));
         $user->save();
 
         $agent = new agent();
         $agent->user_id = user::where('email',$request->input('email'))->first()->id;
         $agent->company_id = company::where('name', $request->input('company'))->first()->id;
         $agent->save(); 
+        dd($user);
+    }
+    public function edit($id){
+        return view('edit')->with('id',$id);
+    }
+    public function update(request $request , $id) {
+        $validatedData = $request->validate([
+            'name'=>'required|string|max:50',
+            'password' => 'required|min:8|required_with:confirmPassword|same:confirmPassword',
+            'confirmPassword' => 'required',
+        ]);
 
-        //return response()->json($user, 201);
-    }
-    public function show($id) {
-        dd(user::where('id',$id)->get());
-    }
-    public function update(AgentStoreRequest $request, $id) {
         $user = User::findOrFail($id);
-        $input = $request->all();
-
-        $user->fill($input)->save();
-        //return response()->json($user, 200);
+        $user->name = $request->input('name');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
     }
     public function destroy($id) {
         user::where('id',$id)->delete();

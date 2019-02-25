@@ -9,8 +9,14 @@
 @endif
 <form method='post' action='{{route('agent.store')}}'>
 @csrf
-<input type='text' name='name'>
-<input type='ss' name='email'>
-<input type='password' name='password'>
-<input type='submit'>
+    name: <input type='text' name='name'><br><br>
+    email: <input type='email' name='email'><br><br>
+    password: <input type='password' name='password'><br><br>
+    Company: 
+    <select name="company">
+        @foreach($companies as $company)
+            <option value = "{{$company}}">{{$company}}</option>
+        @endforeach
+    </select>
+    <input type='submit'>
 </form>
