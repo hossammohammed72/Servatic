@@ -9,12 +9,12 @@ class Ticket extends Model
 {
     use softDeletes;
     public function client(){
-        $this->belongsTo('App\Models\Client');
+        return $this->belongsTo('App\Models\Client');
     }
     public function agent(){
-        $this->belongsTo('App\Models\Agent');
+        return $this->belongsTo('App\Models\Agent');
     }
     public function company(){
-        $this->belongsTo('App\Models\Company');
+        return $this->belongsTo('App\Models\Company');
     }
 }

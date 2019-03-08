@@ -13,27 +13,12 @@
 use App\User;
 use App\Models\Company;
 use App\Models\agent;
+use App\Http\Resources\AgentResource;
 
-Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');
 Route::get('/', function () {
     return view('welcome');
 
 });
-Route::get('agent/', 'AgentController@index');
-Route::get('agent/show/{id}', 'AgentController@show');
-Route::get('agent/add/', 'AgentController@create')->name('agent.add');
-Route::post('agent/', 'AgentController@store')->name('agent.store');
-Route::get('agent/edit/{id}', 'AgentController@edit');
-Route::put('agent/update/{id}', 'AgentController@update')->name('agent.update');
-Route::delete('agent/{id}', 'AgentController@delete');
-
-Route::get('ticket/','Ticketcontroller@index');
-Route::get('ticket/show/{id}','TicketController@show');
-Route::get('ticket/create/', 'TicketController@create');
-Route::post('ticket/' , 'Ticketcontroller@store')->name('ticket.store');
-Route::get('ticket/edit/{id}', 'Ticketcontroller@edit');
-Route::put('ticket/update/{id}', 'Ticketcontroller@update')->name('ticket.update');
-Route::delete('ticket/{id}', 'Ticketcontroller@delete');
 
 Route :: get('moderator/store/{uid}/{cid}','moderators@store');
 Route :: get('moderator/show/{id}','moderators@show');

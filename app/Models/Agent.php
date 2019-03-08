@@ -10,13 +10,13 @@ class Agent extends Model
     use softDeletes;
     protected $fillable = ['user_id', 'company_id'];
     
-    public function user(){
-        $this->belongsTo('App\User');
+    public static function user(){
+        return $this->belongsTo('App\User');
     }
     public function company(){
-        $this->belongsTo('App\Models\Company');
+        return $this->belongsTo('App\Models\Company');
     }
     public function ticket(){
-        $this->hasMany('App\Models\Ticket');
+        return $this->hasMany('App\Models\Ticket');
     }
 }

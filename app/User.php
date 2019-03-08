@@ -39,6 +39,6 @@ class User extends Authenticatable
     ];
 
     public function agent(){
-        $this->hasMany('App\Models\Agent');
+        return $this->hasMany('App\Models\Agent');
     }
 }

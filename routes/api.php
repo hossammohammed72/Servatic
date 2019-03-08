@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 
+use App\Http\Resources\AgentResource; 
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,5 +21,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('agent/', 'AgentController@index');
 Route::get('agent/{id}', 'AgentController@show');
+Route::post('agent/', 'AgentController@store');
 Route::put('agent/{id}', 'AgentController@update');
-Route::delete('agent/{id}', 'AgentController@delete');
+Route::delete('agent/{id}', 'AgentController@destroy');
+
+Route::get('ticket/','Ticketcontroller@index');
+Route::get('ticket/{id}','TicketController@show');
+Route::post('ticket/', 'Ticketcontroller@store');
+Route::put('ticket/{id}', 'Ticketcontroller@update');
+Route::delete('ticket/{id}', 'TicketController@destroy');
