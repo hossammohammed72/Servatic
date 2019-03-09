@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Models\Company;
+use App\Models\agent;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,8 @@ Route::get('agent/', 'AgentController@index');
 Route::get('agent/{id}', 'AgentController@show');
 Route::put('agent/{id}', 'AgentController@update');
 Route::delete('agent/{id}', 'AgentController@delete');
+//////////////////////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////////////////
+Route :: resource('moderators','ModeratorController');
+Route :: resource('clients','ClientController');
+Route :: resource('companies','CompanyController');
