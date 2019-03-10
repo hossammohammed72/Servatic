@@ -7,15 +7,16 @@ use Illuminate\Database\eloquent\softDeletes;
 
 class Agent extends Model
 {
-    protected $fillable = ['user_id', 'company_id'];
     use softDeletes;
-    public function user(){
-        $this->belongsTo('App\User');
+    protected $fillable = ['user_id', 'company_id'];
+    
+    public static function user(){
+        return $this->belongsTo('App\User');
     }
     public function company(){
-        $this->belongsTo('App\Models\Company');
+        return $this->belongsTo('App\Models\Company');
     }
     public function ticket(){
-        $this->hasMany('App\Models\Ticket');
+        return $this->hasMany('App\Models\Ticket');
     }
 }

@@ -2,53 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use Illuminate\Http\Request;
-use App\Http\Requests\AgentStoreRequest;
-use App\User;
 use App\Models\Company;
 use App\Models\agent;
+use App\User;
+use Validator;
 use Hash;
+use DB;
 
 class AgentController extends Controller
 {
-    public function index() {
-        $agent = DB::table('users')
-            ->join('agents', 'users.id', '=', 'agents.user_id')
-            ->select('users.*')
-            ->get();
-        dd($agent);
+    public static function index() {
+        $agent = User::has('agent')->get();
+        return response()->json($agent, 200);
     }
-    public function create(){
-        return view('form');
-    }
-    public function store(AgentStoreRequest $request) {
+    public function show($id) {
+        return response()->json(user::findOrfail($id), 200);
+    }  
+    public function store(request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+        ]);
+        if($validator->fails())
+            return response()->json([$validator->errors()], 401);
+
         $user = new user();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->name = Hash::make($request->input('password'));
+        $user->password = Hash::make($request->input('password'));
         $user->save();
 
         $agent = new agent();
         $agent->user_id = user::where('email',$request->input('email'))->first()->id;
         $agent->company_id = company::where('name', $request->input('company'))->first()->id;
         $agent->save(); 
+        return response()->json(null, 200);
+    }
+    public function update(request $request , $id) {
+        $validator = Validator::make($request->all(),[
+            'name'=>'required|string|max:50',
+            'password' => 'required|min:8',
+        ]);
+        if($validator->fails())
+            return response()->json([$validator->errors()], 401);
 
-        //return response()->json($user, 201);
-    }
-    public function show($id) {
-        dd(user::where('id',$id)->get());
-    }
-    public function update(AgentStoreRequest $request, $id) {
         $user = User::findOrFail($id);
-        $input = $request->all();
-
-        $user->fill($input)->save();
-        //return response()->json($user, 200);
+        $user->name = $request->input('name');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+        return response()->json(null, 201);
     }
     public function destroy($id) {
         user::where('id',$id)->delete();
         agent::where('user_id',$id)->delete();
+        return response()->json(null, 204);
     }
 
 }
