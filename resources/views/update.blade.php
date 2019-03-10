@@ -8,7 +8,7 @@
     </div>
 @endif
 
-<form method='post'  action='{{route('clients.update',['client'=>$client])}}'>
+<form method='post'  action='{{route('clients.update')}}'>
     @csrf
     {{method_field('put')}}
     <label>User Name</label>
