@@ -32,7 +32,7 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string'
+            'name' => 'required|string|unique:companies'
         ]);
         if($validator->fails())
             return response()->json([$validator->errors()], 401);
@@ -49,7 +49,7 @@ class CompanyController extends Controller
     public function update(Request $request,$id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string'
+            'name' => 'required|string|unique:companies'
         ]);
         if($validator->fails())
             return response()->json([$validator->errors()], 401);

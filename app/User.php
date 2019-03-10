@@ -39,6 +39,10 @@ class User extends Authenticatable
     ];
 
     public function agent(){
-        return $this->hasMany('App\Models\Agent');
+        return $this->hasOne('App\Models\Agent');
+    }
+
+    public function moderator(){
+        return $this->hasOne('App\Models\Moderator');
     }
 }

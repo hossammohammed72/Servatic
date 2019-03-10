@@ -19,7 +19,20 @@ class ModeratorController extends Controller
      */
     public function index()
     {
-        return response()->json(Moderator::all());
+       // $moderators=DB:: select('select user_id from moderators');
+        //->where('company_id','=',4)
+
+        $moderators =DB::table('moderators')->get();;
+        $moderato=array();
+
+        foreach($moderators as $moderator){
+
+            $moderato[]=User::where('id', $moderator->user_id)->get();
+          }
+
+        return response()->json([$moderato]);
+
+        //return response()->json([$moderators]);
     }
 
 

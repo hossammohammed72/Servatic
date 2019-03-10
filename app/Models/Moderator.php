@@ -11,4 +11,9 @@ class Moderator extends Model
 
         $this->belongsTo('App\Models\Company');
     }
+
+    public function user(){
+
+        $this->belongsTo('App\User','user_id','id');
+    }
 }
