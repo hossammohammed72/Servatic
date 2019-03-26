@@ -9,8 +9,8 @@ class Agent extends Model
 {
     use softDeletes;
     protected $fillable = ['user_id', 'company_id'];
-    
-    public static function user(){
+
+    public  function user(){
         return $this->belongsTo('App\User');
     }
     public function company(){

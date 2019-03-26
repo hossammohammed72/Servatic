@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-use App\Http\Resources\AgentResource; 
+use App\Http\Resources\AgentResource;
 use App\User;
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ use App\User;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::middleware('auth:api')->group(function(){
 Route::get('agent/', 'AgentController@index');
 Route::get('agent/{id}', 'AgentController@show');
 Route::post('agent/', 'AgentController@store');
@@ -30,3 +30,6 @@ Route::get('ticket/{id}','TicketController@show');
 Route::post('ticket/', 'Ticketcontroller@store');
 Route::put('ticket/{id}', 'Ticketcontroller@update');
 Route::delete('ticket/{id}', 'TicketController@destroy');
+});
+Route::post('register', 'AuthController@register');
+Route::post('login', 'AuthController@login');
