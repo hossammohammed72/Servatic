@@ -42,4 +42,13 @@ class User extends Authenticatable implements JWTSubject
     public function agent(){
         return $this->hasOne('App\Models\Agent');
     }
+    public function getJWTIdentifier()
+    {
+      return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+      return [];
+    }
 }
