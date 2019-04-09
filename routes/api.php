@@ -32,11 +32,9 @@ Route::get('ticket/{id}','TicketController@show');
 Route::post('ticket/', 'Ticketcontroller@store');
 Route::put('ticket/{id}', 'Ticketcontroller@update');
 Route::delete('ticket/{id}', 'TicketController@destroy');
-//////////////////////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////////////////
-Route :: resource('moderators','ModeratorController');
-Route :: resource('clients','ClientController');
-Route :: resource('companies','CompanyController');
+Route::resource('moderators','ModeratorController');
+Route::resource('clients','ClientController');
+Route::resource('companies','CompanyController');
 });
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
