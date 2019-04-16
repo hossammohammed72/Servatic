@@ -18,7 +18,7 @@ class AuthController extends Controller
 
       $token = auth()->login($user);
 
-      return $this->respondWithToken($token);
+      return $this->respondWithToken($token,$user->type());
     }
 
     public function login(Request $request)
@@ -28,15 +28,16 @@ class AuthController extends Controller
       if (!$token = auth()->attempt($credentials)) {
         return response()->json(['error' => 'Unauthorized'], 401);
       }
-
-      return $this->respondWithToken($token);
+      $user = User::where('email',$request->email)->first();
+      return $this->respondWithToken($token,$user->type());
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token,$type=null)
     {
       return response()->json([
         'access_token' => $token,
         'token_type' => 'bearer',
+        'type'=>$type,
         'expires_in' => auth()->factory()->getTTL() * 60
       ]);
     }

@@ -42,6 +42,21 @@ class User extends Authenticatable implements JWTSubject
     public function agent(){
         return $this->hasOne('App\Models\Agent');
     }
+    public function moderator(){
+        return $this->hasOne('App\Models\Moderator');
+    }
+    public function admin(){
+        return $this->hasOne('App\Models\Admin');
+    }
+    public function type(){
+        if(!is_null($this->admin()))
+            return 'admin';
+        if(!is_null($this->moderator()))
+            return 'moderator';
+        if(!is_null($this->agent()))
+            return 'agent';
+        return null;
+    }
     public function getJWTIdentifier()
     {
       return $this->getKey();
