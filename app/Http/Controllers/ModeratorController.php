@@ -67,7 +67,7 @@ class ModeratorController extends Controller
         $moderator->user_id =$user->id ;
         $moderator->company_id =$request->company_id ;
         $moderator->save();
-        return response()->json(null, 200);
+        return response()->json($moderator, 200);
 
     }
 
