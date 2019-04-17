@@ -19,6 +19,7 @@ class CreateAgentsTable extends Migration
             $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies')
             ->ondelete('cascade')->onupdate('cascade');
             $table->primary('user_id');
+            $table->boolean('busy')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
