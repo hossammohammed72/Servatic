@@ -41,7 +41,7 @@ class CompanyController extends Controller
         $company = new Company();
         $company->name = $request->name;
         $company->save();
-        return response()->json(null, 200);
+        return response()->json($company, 200);
 
     }
 
