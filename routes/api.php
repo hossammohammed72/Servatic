@@ -36,5 +36,8 @@ Route::resource('moderators','ModeratorController');
 Route::resource('clients','ClientController');
 Route::resource('companies','CompanyController');
 });
+Route::get('makeusers','ChatController@testAgentUser');
+Route::get('addtoroom/{user}','ChatController@ِaddClientToRoom');
+
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
