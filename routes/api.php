@@ -37,7 +37,7 @@ Route::resource('clients','ClientController');
 Route::resource('companies','CompanyController');
 });
 Route::get('makeusers','ChatController@testAgentUser');
-Route::get('addtoroom/','ChatController@ِaddClientToRoom');
+Route::post('addtoroom/','ChatController@ِaddClientToRoom');
 
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
