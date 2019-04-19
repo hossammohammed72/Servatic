@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\eloquent\softDeletes;
+use Illuminate\Database\eloquent\SoftDeletes;
 
 class Agent extends Model
 {
