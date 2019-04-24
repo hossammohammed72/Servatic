@@ -11,7 +11,10 @@ class ChatController extends Controller
 {
     //
     public function __construct(){
-        $this->chatkit = new ChatKit(['instance_locator'=>env('PUSHER_INSTANCE_LOCATOR'),'key'=>env('PUSHER_KEY')]);
+        $this->chatkit = new ChatKit(
+            ['instance_locator'=>env('PUSHER_INSTANCE_LOCATOR'),
+            'key'=>env('PUSHER_KEY')
+            ]);
     }
     public function ِaddClientToRoom(Request $request){
 
@@ -32,6 +35,12 @@ class ChatController extends Controller
         ]);
         return response()->json(['msg'=>'success'],200);
 
+    }
+    /**
+     *  pusher auth
+     */
+    public function pusherAuth(Request $request){
+        return $chatkit->authenticate([ 'user_id' => $request->id ]);
     }
     public function testAgentUser(){
         $agents = Agent::with('user')->last();

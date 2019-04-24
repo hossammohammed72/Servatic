@@ -38,6 +38,7 @@ Route::resource('companies','CompanyController');
 });
 Route::get('makeusers','ChatController@testAgentUser');
 Route::post('addtoroom/','ChatController@ِaddClientToRoom');
+Route::post('pusher_auth/','ChatController@ِpusherAuth');
 
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
