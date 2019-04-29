@@ -17,24 +17,12 @@ use App\User;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::middleware('auth:api')->group(function(){
-Route::get('agent/', 'AgentController@index');
-Route::get('agent/{id}', 'AgentController@show');
-Route::post('agent/', 'AgentController@store');
-Route::put('agent/{id}', 'AgentController@update');
-Route::delete('agent/{id}', 'AgentController@destroy');
-
-Route::get('ticket/','Ticketcontroller@index');
-Route::get('ticket/{id}','TicketController@show');
-Route::post('ticket/', 'Ticketcontroller@store');
-Route::put('ticket/{id}', 'Ticketcontroller@update');
-Route::delete('ticket/{id}', 'TicketController@destroy');
-Route::resource('moderators','ModeratorController');
-Route::resource('clients','ClientController');
-Route::resource('companies','CompanyController');
+    Route::resource('agents/', 'agentController');
+    Route::resource('tickets/', 'TicketController');
+    Route::resource('moderators','ModeratorController');
+    Route::resource('clients','ClientController');
+    Route::resource('companies','CompanyController');
 });
 Route::get('makeusers','ChatController@testAgentUser');
 Route::post('addtoroom/','ChatController@ِaddClientToRoom');
