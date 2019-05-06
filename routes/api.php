@@ -18,8 +18,8 @@ use App\User;
 */
 
 Route::middleware('auth:api')->group(function(){
-    Route::resource('agents/', 'agentController');
-    Route::resource('tickets/', 'TicketController');
+    Route::resource('agent/', 'agentController');
+    Route::resource('ticket/', 'TicketController');
     Route::resource('moderators','ModeratorController');
     Route::resource('clients','ClientController');
     Route::resource('companies','CompanyController');
