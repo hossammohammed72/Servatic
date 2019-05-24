@@ -13,7 +13,7 @@ class TicketController extends Controller
 {
     public function index() {
         $ticket = DB::table('tickets')
-        ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as user' , 'companies.name as company')
+        ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent' , 'companies.name as company')
         ->join('users', 'users.id', '=', 'tickets.agent_id')
         ->join('clients', 'clients.id', '=', 'tickets.client_id')
         ->join('companies', 'companies.id', '=', 'tickets.company_id')
@@ -23,7 +23,7 @@ class TicketController extends Controller
 
     public function show($id) {
         $ticket = DB::table('tickets')
-            ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as user' , 'companies.name as company')
+            ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent' , 'companies.name as company')
             ->join('users', 'users.id', '=', 'tickets.agent_id')
             ->join('clients', 'clients.id', '=', 'tickets.client_id')
             ->join('companies', 'companies.id', '=', 'tickets.company_id')
@@ -58,7 +58,7 @@ class TicketController extends Controller
             'action' => 'required|string',
         ]);
         if($validator->fails())
-            return response()->json([$validator->errors()], 402);
+            return response()->json([$validator->errors()], 401);
 
         $ticket = Ticket::findOrFail($id);
         $ticket->complaint = $request->input('complaint');

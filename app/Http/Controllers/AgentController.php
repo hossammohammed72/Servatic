@@ -13,7 +13,11 @@ use DB;
 class AgentController extends Controller
 {
     public static function index() {
-        $agent = User::has('agent')->get();
+        $agent = DB::table('agents')
+        ->join('users', 'users.id', '=', 'agents.user_id')
+        ->join('companies', 'companies.id', '=', 'agents.company_id')
+        ->select('users.name', 'users.email', 'companies.name as company name', 'agents.busy')
+        ->get();
         return response()->json($agent, 200);
     }
     public function show($id) {

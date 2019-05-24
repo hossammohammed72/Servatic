@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Compnay;
+use App\Models\Company;
 class CompaniesTableSeeder extends Seeder
 {
     /**
@@ -14,11 +14,13 @@ class CompaniesTableSeeder extends Seeder
     {
         DB::table('companies')->delete();
 
-        DB::table('companies')->insert([
-            'name' => 'Vodafone',
-        ],
-        [
-            'name' => 'Etisalat',
-        ]); 
+        $companies =[
+            ['name' => 'Vodafone'],
+            ['name' => 'Etisalat'],
+            ['name' => 'orange']
+        ];
+        foreach($companies as $company){
+            Company::create($company);
+        }
     }
 }
