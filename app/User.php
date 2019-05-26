@@ -48,13 +48,22 @@ class User extends Authenticatable implements JWTSubject
     public function admin(){
         return $this->hasOne('App\Models\Admin');
     }
+    /*
+    * @return user model data
+    */ 
     public function type(){
-        if(!is_null($this->admin))
-            return 'admin';
-        if(!is_null($this->moderator))
-            return 'moderator';
-        if(!is_null($this->agent))
-            return 'agent';
+        if(!is_null($this->admin)){
+            $this->admin->attributes['type']='admin';
+            return $this->admin->attributes;
+        }
+        if(!is_null($this->moderator)){
+            $this->moderator->attributes['type']='moderator';
+            return $this->moderator->attributes;
+        }
+        if(!is_null($this->agent)){
+            $this->agent->attributes['type']='agent';
+            return $this->agent->attributes;
+        }
         return null;
     }
     public function getJWTIdentifier()

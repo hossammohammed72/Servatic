@@ -29,16 +29,19 @@ class AuthController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
       }
       $user = User::where('email',$request->email)->first();
-      return $this->respondWithToken($token,$user->type());
+      $user = (array)$user->type();
+      return $this->respondWithToken($token,$user);
     }
 
     protected function respondWithToken($token,$type=null)
     {
+      
       return response()->json([
         'access_token' => $token,
         'token_type' => 'bearer',
-        'type'=>$type,
-        'expires_in' => auth()->factory()->getTTL() * 60
+        'expires_in' => auth()->factory()->getTTL() * 60,
+         'model'=>$type,
+         
       ]);
     }
 }
