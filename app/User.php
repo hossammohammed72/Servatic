@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Company;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -57,11 +58,15 @@ class User extends Authenticatable implements JWTSubject
             return $this->admin->attributes;
         }
         if(!is_null($this->moderator)){
+            $companyName = Company::where('id',$this->moderator->company_id)->first()->only('name');
             $this->moderator->attributes['type']='moderator';
+            $this->moderator->attributes['company_name']= $companyName['name'];
             return $this->moderator->attributes;
         }
         if(!is_null($this->agent)){
+            $companyName = Company::where('id',$this->agent->company_id)->first()->only('name');
             $this->agent->attributes['type']='agent';
+            $this->agent->attributes['company_name']= $companyName['name'];
             return $this->agent->attributes;
         }
         return null;
