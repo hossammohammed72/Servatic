@@ -23,6 +23,8 @@ Route::middleware('auth:api')->group(function(){
     Route::resource('moderators','ModeratorController');
     Route::resource('clients','ClientController');
     Route::resource('companies','CompanyController');
+
+    Route::get('agents/company/{id}', 'agentController@companyAgents');
 });
 Route::get('makeusers','ChatController@testAgentUser');
 Route::post('addtoroom/','ChatController@ِaddClientToRoom');

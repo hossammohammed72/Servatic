@@ -64,4 +64,13 @@ class AgentController extends Controller
         return response()->json(null, 204);
     }
 
+    public function companyAgents($id){
+        $agent = DB::table('agents')
+        ->join('users', 'users.id', '=', 'agents.user_id')
+        ->where('agents.company_id', '=', $id)
+        ->select('users.id', 'users.name', 'users.email', 'agents.busy', 'agents.created_at', 'agents.updated_at')
+        ->get();
+
+        return response()->json($agent,200);
+    }
 }
