@@ -22,12 +22,11 @@ class TicketController extends Controller
     }
 
     public function show($id) {
-        $ticket = DB::table('tickets')
-            ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent' , 'companies.name as company')
+            $ticket = DB::table('tickets')
+            ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent')
             ->join('users', 'users.id', '=', 'tickets.agent_id')
             ->join('clients', 'clients.id', '=', 'tickets.client_id')
-            ->join('companies', 'companies.id', '=', 'tickets.company_id')
-            ->where('tickets.id','=',$id)
+            ->where('tickets.company_id', '=', $id)
             ->get();
         return response()->json($ticket, 200);
     }
