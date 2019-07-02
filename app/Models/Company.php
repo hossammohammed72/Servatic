@@ -17,4 +17,8 @@ class Company extends Model
 
         $this->hasMany('App\Models\Moderator');
     }
+    public function agents(){
+
+        $this->hasMany('App\Models\Agent');
+    }
 }
