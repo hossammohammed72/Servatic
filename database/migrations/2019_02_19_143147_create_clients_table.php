@@ -17,8 +17,7 @@ class CreateClientsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('company')
-            ->ondelete('cascade')->onupdate('cascade');
+            $table->integer('company_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });

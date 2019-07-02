@@ -15,12 +15,9 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('client_id')->unsigned()->foreign()->references('id')->on('clients')
-            ->ondelete('cascade')->onupdate('cascade');
-            $table->integer('agent_id')->unsigned()->foreign()->references('user_id')->on('agents')
-            ->ondelete('cascade')->onupdate('cascade');
-            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies')
-            ->ondelete('cascade')->onupdate('cascade');
+            $table->integer('client_id')->unsigned();
+            $table->integer('agent_id')->unsigned();
+            $table->integer('company_id')->unsigned();
             $table->string('complaint');
             $table->string('action');
             $table->timestamps();

@@ -14,11 +14,10 @@ class CreateAgentsTable extends Migration
     public function up()
     {
         Schema::create('agents', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users')
-            ->ondelete('cascade')->onupdate('cascade');
-            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies')
-            ->ondelete('cascade')->onupdate('cascade');
+            $table->integer('user_id')->unsigned();
             $table->primary('user_id');
+            $table->integer('company_id')->unsigned();
+            
             $table->boolean('busy')->default(false);
             $table->timestamps();
             $table->softDeletes();

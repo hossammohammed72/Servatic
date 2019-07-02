@@ -15,10 +15,8 @@ class CreateModeratorsTable extends Migration
     {
         Schema::create('moderators', function (Blueprint $table) {
 
-            $table->integer('user_id')->unsigned()->foreign()->references('id')->on('users')
-            ->ondelete('cascade')->onupdate('cascade');
-            $table->integer('company_id')->unsigned()->foreign()->references('id')->on('companies')
-            ->ondelete('cascade')->onupdate('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->integer('company_id')->unsigned();
             $table->primary('user_id');
             $table->timestamps();
             $table->softDeletes();
