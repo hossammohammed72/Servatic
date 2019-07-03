@@ -21,4 +21,8 @@ class Company extends Model
 
         $this->hasMany('App\Models\Agent');
     }
+    public function tickets(){
+        
+        $this->hasMany('App\Models\Ticket');
+    }
 }
