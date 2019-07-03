@@ -16,5 +16,7 @@ class Client extends Model
 
         $this->belongsTo('App\Models\Company');
     }
-
+    public function room(){
+        return $this->hasMany('App\Models\Room');
+    }
 }

@@ -19,4 +19,8 @@ class Agent extends Model
     public function ticket(){
         return $this->hasMany('App\Models\Ticket');
     }
+
+    public function room(){
+        return $this->hasMany('App\Models\Room');
+    }
 }
