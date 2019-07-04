@@ -20,7 +20,7 @@ class TicketController extends Controller
         ->get();
         return response()->json($ticket, 200);
     }
-
+    // id is company id 
     public function show($id) {
             $ticket = DB::table('tickets')
             ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent')
