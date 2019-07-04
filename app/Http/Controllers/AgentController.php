@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
-use App\Models\agent;
+use App\Models\Agent;
 use App\User;
 use Validator;
 use Hash;
