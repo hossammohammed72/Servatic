@@ -19,7 +19,6 @@ class CreateClientsTable extends Migration
             $table->string('email')->unique();
             $table->integer('company_id')->unsigned();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

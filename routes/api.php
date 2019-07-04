@@ -26,6 +26,8 @@ Route::middleware('auth:api')->group(function(){
 
     Route::get('agents/company/{id}', 'agentController@companyAgents');
 });
+Route::resource('rooms','RoomController');
+
 Route::get('makeusers','ChatController@testAgentUser');
 Route::post('addtoroom/','ChatController@ِaddClientToRoom');
 Route::post('pusher_auth/','ChatController@ِpusherAuth');
