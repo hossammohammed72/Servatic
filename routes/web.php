@@ -15,10 +15,6 @@ use App\Models\Company;
 use App\Models\agent;
 use App\Http\Resources\AgentResource;
 
-Route::get('/', function () {
-    return view('welcome');
-
-});
 
 
 
