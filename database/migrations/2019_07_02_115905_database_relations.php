@@ -43,6 +43,14 @@ class DatabaseRelations extends Migration
         });
 
 
+        Schema::table('rooms',function(Blueprint $table){
+            $table->foreign('client_id')->references('id')->on('clients')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('agent_id')->references('user_id')->on('agents')
+                ->onUpdate('cascade')->onDelete('cascade');
+        });
+
+
 
     }
 
