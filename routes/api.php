@@ -18,13 +18,13 @@ use App\User;
 */
 
 Route::middleware('auth:api')->group(function(){
-    Route::resource('agents', 'agentController');
+    Route::resource('agents', 'AgentController');
     Route::resource('tickets', 'TicketController');
     Route::resource('moderators','ModeratorController');
     Route::resource('clients','ClientController');
     Route::resource('companies','CompanyController');
 
-    Route::get('agents/company/{id}', 'agentController@companyAgents');
+    Route::get('agents/company/{id}', 'AgentController@companyAgents');
 });
 Route::resource('rooms','RoomController');
 
