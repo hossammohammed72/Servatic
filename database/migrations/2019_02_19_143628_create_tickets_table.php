@@ -21,7 +21,6 @@ class CreateTicketsTable extends Migration
             $table->string('complaint');
             $table->string('action');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

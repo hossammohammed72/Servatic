@@ -20,7 +20,6 @@ class CreateAgentsTable extends Migration
             
             $table->boolean('busy')->default(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
