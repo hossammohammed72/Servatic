@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Company;
-use App\Models\agent;
+use App\Models\Agent;
 use App\User;
 use Validator;
 use Hash;
@@ -21,7 +21,7 @@ class AgentController extends Controller
         return response()->json($agent, 200);
     }
     public function show($id) {
-        return response()->json(user::findOrfail($id), 200);
+        return response()->json(User::findOrfail($id), 200);
     }
     public function store(request $request) {
         $validator = Validator::make($request->all(), [
@@ -32,14 +32,14 @@ class AgentController extends Controller
         if($validator->fails())
             return response()->json([$validator->errors()], 401);
 
-        $user = new user();
+        $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->save();
 
-        $agent = new agent();
-        $agent->user_id = user::where('email',$request->input('email'))->first()->id;
+        $agent = new Agent();
+        $agent->user_id = User::where('email',$request->input('email'))->first()->id;
         $agent->company_id = $request->company_id;
         $agent->save();
         return response()->json($agent, 200);
@@ -59,8 +59,8 @@ class AgentController extends Controller
         return response()->json(null, 201);
     }
     public function destroy($id) {
-        user::where('id',$id)->delete();
-        agent::where('user_id',$id)->delete();
+        User::where('id',$id)->delete();
+        Agent::where('user_id',$id)->delete();
         return response()->json(null, 204);
     }
 
