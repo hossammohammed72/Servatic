@@ -18,8 +18,8 @@ class CreateTicketsTable extends Migration
             $table->integer('client_id')->unsigned();
             $table->integer('agent_id')->unsigned();
             $table->integer('company_id')->unsigned();
-            $table->string('complaint');
-            $table->string('action');
+            $table->string('complaint')->nullable();
+            $table->string('action')->nullable();
             $table->timestamps();
         });
     }
