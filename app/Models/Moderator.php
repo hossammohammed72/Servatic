@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Models;
+
+use App\PusherUser;
 use Illuminate\Database\Eloquent\Model;
-class Moderator extends Model
+class Moderator extends PusherUser
 {
 
     public function company(){

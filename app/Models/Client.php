@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\PusherUser;
 
-class Client extends Model
+
+class Client extends PusherUser
 {
     public function ticket(){
         $this->hasMany('App\Models\Ticket');

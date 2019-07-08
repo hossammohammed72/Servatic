@@ -14,7 +14,6 @@ class AgentsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('agents')->delete();
 
         for($i=0; $i<10; $i++){
             $user = user::create([

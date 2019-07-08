@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\PusherUser;
 
-class Agent extends Model
+
+class Agent extends PusherUser
 {
     protected $fillable = ['user_id', 'company_id'];
 
