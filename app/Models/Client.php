@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\PusherUser;
 
 
-class Client extends PusherUser
+class Client extends model
 {
     public function ticket(){
         $this->hasMany('App\Models\Ticket');

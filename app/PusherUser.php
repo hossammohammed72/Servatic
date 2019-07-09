@@ -20,8 +20,8 @@ class PusherUser extends Model{
                 'key'=>env('PUSHER_KEY')
             ]);
         $this->chatkit->createUser([
-            'id' =>$this->email,
-            'name' => $this->name
+            'id' =>$this->user->email,
+            'name' => $this->user->name
         ]);
         return $model;
         }

@@ -8,6 +8,8 @@ use App\Models\Agent;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\Ticket;
+use App\Models\Room;
+
 class ChatController extends Controller
 {
     //
@@ -23,12 +25,22 @@ class ChatController extends Controller
         $freeAgent= Agent::with('user')->where('busy',false)->first();
         if(!is_null($freeAgent)){
             $this->chatkit->createRoom([
-                'creator_id'=>$agent->user->email,
+                'creator_id'=>$freeAgent->user->email,
                 'name'=>'Servatic',
                 'user_ids'=>[$client->email],
             ]);
+            $room = new Room();
+            $room->id =  $this->chatkit->createRoom([
+                'creator_id'=>$freeAgent->user->email,
+                'name'=>'Servatic',
+                'user_ids'=>[$client->email],
+            ])['body']['id'];
+            $room->client_id = $client->id;
+            $room->agent_id = $freeAgent->user_id;
+            $room->save(); 
             $this->makeTicket($client,$freeAgent);
             $freeAgent->busy = true ;
+            $freeAgent->user_id = $freeAgent->user_id;
             $freeAgent->save();
 
         }else {
@@ -37,7 +49,7 @@ class ChatController extends Controller
         return response()->json(['msg'=>'success'],200);
 
     }
-    private function getClient(Requets $request){
+    private function getClient(Request $request){
         if(Client::where('email',$request->email)->count() != 1)
         {
             $client = new Client();
