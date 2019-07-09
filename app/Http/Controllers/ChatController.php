@@ -90,10 +90,10 @@ class ChatController extends Controller
         return response()->json(['success'=>true],200);
     }
 
-    public function getRoomClient(Room $room){
+    public function ِgetRoomClient(Room $room){
         $ticket = Ticket::where('agent_id',$room->agent_id)
         ->where('client_id',$room->client_id)
-        ->where('compaint',null)
+        ->where('complaint',null)
         ->where('action',null)->first();
         $client = Client::find($room->client_id);
         return response()->json(['client'=>$client,'ticket'=>$ticket]);

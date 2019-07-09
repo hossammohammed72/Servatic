@@ -7,7 +7,6 @@ use Illuminate\database\Eloquent\softDeletes;
 
 class Room extends Model
 {
-    use softDeletes;
     public function client(){
         return $this->hasMany('App\Models\Client');
     }
