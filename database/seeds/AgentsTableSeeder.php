@@ -21,9 +21,16 @@ class AgentsTableSeeder extends Seeder
                 'email'=> str_random(4).'@mail.com',
                 'password'=> bcrypt('secret')
             ]);
+            $user = new User();
+            $user->name = str_random(4);
+            $user->email = str_random(4).'@mail.com';
+            $user->password= bcrypt('secret');
+            $user->save();
+         //   dd($user);
             //agent::create(['user_id'=>$user->id, 'company_id'=>Company::inRandomOrder()->first()->id]);
             $agent = new Agent();
             $agent->user_id = $user->id;
+           // $agent->user_id = $user->id;
             $agent->company_id = Company::inRandomOrder()->first()->id;
             $agent->save();
         }

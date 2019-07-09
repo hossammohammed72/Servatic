@@ -8,7 +8,7 @@ use App\PusherUser;
 
 class Agent extends PusherUser
 {
-    protected $primaryKey = 'user_id';
+//    protected $primaryKey = 'user_id';
     protected $fillable = ['user_id', 'company_id'];
 
     public  function user(){

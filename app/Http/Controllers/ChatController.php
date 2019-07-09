@@ -22,7 +22,7 @@ class ChatController extends Controller
     public function ِaddClientToRoom(Request $request){
 
         $client = $this->getClient($request);
-        $freeAgent= Agent::with('user')->where('busy',false)->first();
+        $freeAgent= Agent::with('user')->where('busy',false)->where('company_id',$request->company_id)->first();
         if(!is_null($freeAgent)){
             $this->chatkit->createRoom([
                 'creator_id'=>$freeAgent->user->email,
@@ -30,21 +30,21 @@ class ChatController extends Controller
                 'user_ids'=>[$client->email],
             ]);
             $room = new Room();
-            $room->id =  $this->chatkit->createRoom([
+            $roomData =  $this->chatkit->createRoom([
                 'creator_id'=>$freeAgent->user->email,
                 'name'=>'Servatic',
                 'user_ids'=>[$client->email],
-            ])['body']['id'];
+            ]);
+            $room->id =(int)$roomData['body']['id'];
             $room->client_id = $client->id;
             $room->agent_id = $freeAgent->user_id;
             $room->save(); 
             $this->makeTicket($client,$freeAgent);
-            $freeAgent->busy = true ;
-            $freeAgent->user_id = $freeAgent->user_id;
-            $freeAgent->save();
+            Agent::where('user_id',$freeAgent->user_id)->update(['busy'=>true]);
 
         }else {
             // put client in queue
+            return response()->json(['msg'=>'no free agents available'],503);   
         }
         return response()->json(['msg'=>'success'],200);
 
@@ -88,5 +88,15 @@ class ChatController extends Controller
         }
         $this->chatkit->createUsers($users);
         return response()->json(['success'=>true],200);
+    }
+
+    public function getRoomClient(Room $room){
+        $ticket = Ticket::where('agent_id',$room->agent_id)
+        ->where('client_id',$room->client_id)
+        ->where('compaint',null)
+        ->where('action',null)->first();
+        $client = Client::find($room->client_id);
+        return response()->json(['client'=>$client,'ticket'=>$ticket]);
+
     }
 }
