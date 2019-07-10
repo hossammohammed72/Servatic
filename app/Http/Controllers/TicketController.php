@@ -7,6 +7,7 @@ use App\Http\Controllers\AgentController;
 use App\Models\Ticket;
 use Validator;
 use App\User;
+use App\Models\Agent;
 use DB;
 
 class TicketController extends Controller
@@ -63,6 +64,7 @@ class TicketController extends Controller
         $ticket->complaint = $request->input('complaint');
         $ticket->action = $request->input('action');
         $ticket->save();
+        Agent::where('user_id',$ticket->agent_id)->update(['busy'=>0]);
         return response()->json(null, 201);
     }
     public function destroy($id) {
