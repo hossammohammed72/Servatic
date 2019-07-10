@@ -17,6 +17,7 @@ class CreatRoomsTable extends Migration
             $table->integer('id');
             $table->integer('client_id')->unsigned();
             $table->integer('agent_id')->unsigned();
+            $table->integer('response_time')->unsigned() ->nullable();
             $table->timestamps();
         });
     }
