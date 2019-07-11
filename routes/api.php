@@ -20,6 +20,7 @@ use App\User;
 Route::middleware('auth:api')->group(function(){
     Route::resource('agents', 'AgentController');
     Route::resource('tickets', 'TicketController');
+    Route::post('tickets/update/{id}','TicketController@update');
     Route::resource('moderators','ModeratorController');
     Route::resource('clients','ClientController');
     Route::resource('companies','CompanyController');
