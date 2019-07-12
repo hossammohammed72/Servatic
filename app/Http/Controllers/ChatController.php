@@ -22,7 +22,9 @@ class ChatController extends Controller
     public function ِaddClientToRoom(Request $request){
 
         $client = $this->getClient($request);
-        $freeAgent= Agent::with('user')->where('busy',false)->where('company_id',$request->company_id)->first();
+        $freeAgent= Agent::with('user')->where('busy',false)
+            ->where('company_id',$request->company_id)->first();
+
         if(!is_null($freeAgent)){
             $this->chatkit->createRoom([
                 'creator_id'=>$freeAgent->user->email,

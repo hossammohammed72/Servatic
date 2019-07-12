@@ -44,6 +44,8 @@ class AgentController extends Controller
         $agent->save();
         return response()->json($agent, 200);
     }
+
+
     public function update(request $request , $id) {
         $validator = Validator::make($request->all(),[
             'name'=>'required|string|max:50',
@@ -58,6 +60,8 @@ class AgentController extends Controller
         $user->save();
         return response()->json(null, 201);
     }
+
+
     public function destroy($id) {
         User::where('id',$id)->delete();
         Agent::where('user_id',$id)->delete();
@@ -73,4 +77,8 @@ class AgentController extends Controller
 
         return response()->json($agent,200);
     }
+
+
+
+
 }
