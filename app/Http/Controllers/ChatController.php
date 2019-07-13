@@ -61,7 +61,11 @@ class ChatController extends Controller
             $client->name = $request->name;
             $client->company_id = $request->company_id;
             $client->save();
+            try{
             $this->chatkit->createUser(['id'=>$request->email,'name'=>$request->name]);
+            } catch (ChatkitException $e){
+                
+            }
             return $client;
         }else {
             return Client::where('email',$request->email)->first();
