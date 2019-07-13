@@ -40,12 +40,14 @@ class ChatController extends Controller
             $room->id =(int)$roomData['body']['id'];
             $room->client_id = $client->id;
             $room->agent_id = $freeAgent->user_id;
-            $room->save(); 
-            $this->makeTicket($client,$freeAgent);
+            $room->save();
+            $waiting_time = $request->waiting_time;
+            $this->makeTicket($client,$freeAgent,$waiting_time);
             Agent::where('user_id',$freeAgent->user_id)->update(['busy'=>true]);
 
         }else {
             // put client in queue
+            DB:: table ('companies')->where('id',$request->company_id)->increment('client_in_queue',1);
             return response()->json(['msg'=>'no free agents available'],503);   
         }
         return response()->json(['msg'=>'success'],200);
@@ -66,11 +68,12 @@ class ChatController extends Controller
         }
 
     }
-    private function makeTicket(Client $client,Agent $agent){
+    private function makeTicket(Client $client,Agent $agent,$waiting_time){
         $ticket = new Ticket();
         $ticket->company_id = $client->company_id;
         $ticket->agent_id = $agent->user_id;
         $ticket->client_id = $client->id;
+        $ticket->waiting_time = $waiting_time;
         return $ticket->save();
     }
     /**

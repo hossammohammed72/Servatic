@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatRoomsTable extends Migration
+class CreateRoomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,7 +17,7 @@ class CreatRoomsTable extends Migration
             $table->integer('id');
             $table->integer('client_id')->unsigned();
             $table->integer('agent_id')->unsigned();
-            $table->string('response_time')->nullable();
+           // $table->string('response_time')->nullable();
             $table->timestamps();
         });
     }
