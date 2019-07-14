@@ -9,6 +9,10 @@ use App\Models\Client;
 use App\Models\Company;
 use App\Models\Ticket;
 use App\Models\Room;
+use Chatkit\ChatkitException;
+use DB;
+use Validator;
+
 
 class ChatController extends Controller
 {
@@ -20,6 +24,15 @@ class ChatController extends Controller
             ]);
     }
     public function ِaddClientToRoom(Request $request){
+        $validator = validator::make($request->all(), [
+            'name' => 'required|max:255|string',
+            'email' => 'required|email|unique:clients',
+            'company_id' =>'required|exists:companies,id',
+            'waiting_time' =>'required|string',
+        ]);
+        if($validator->fails())
+            return response()->json([$validator->errors()], 401);
+
 
         $client = $this->getClient($request);
         $freeAgent= Agent::with('user')->where('busy',false)
@@ -37,6 +50,7 @@ class ChatController extends Controller
                 'name'=>'Servatic',
                 'user_ids'=>[$client->email],
             ]);
+
             $room->id =(int)$roomData['body']['id'];
             $room->client_id = $client->id;
             $room->agent_id = $freeAgent->user_id;
@@ -45,9 +59,12 @@ class ChatController extends Controller
             $this->makeTicket($client,$freeAgent,$waiting_time);
             Agent::where('user_id',$freeAgent->user_id)->update(['busy'=>true]);
 
-        }else {
-            // put client in queue
-            DB:: table ('companies')->where('id',$request->company_id)->increment('client_in_queue',1);
+            company::where('id',$request->company_id)->where('client_in_queue','>',0)
+                ->decrement('client_in_queue',1);
+
+        }
+        else {
+            company::where('id',$request->company_id)->increment('client_in_queue',1);
             return response()->json(['msg'=>'no free agents available'],503);   
         }
         return response()->json(['msg'=>'success'],200);

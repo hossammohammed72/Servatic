@@ -16,7 +16,7 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('client_in_queue')->unsigned()->nullable();
+            $table->integer('client_in_queue')->unsigned()->default(0);
             $table->timestamps();
         });
     }

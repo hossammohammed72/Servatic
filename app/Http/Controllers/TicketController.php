@@ -61,6 +61,8 @@ class TicketController extends Controller
         $validator = validator::make($request->all(), [
             'complaint'=>'required|string|max:100',
             'action' => 'required|string',
+            'room_id' => 'required|exists:rooms,id',
+            'accuracy' =>'required|double',
         ]);
         if($validator->fails())
             return response()->json([$validator->errors()], 401);
@@ -75,7 +77,8 @@ class TicketController extends Controller
         $agent_id=$ticket->agent_id;
         $client_id=$ticket->client_id;
         $room_id=$request->room_id;
-        self::response_time($agent_id,$client_id,$room_id);
+        $accuracy = $request->accuracy;
+        self::response_time($agent_id,$client_id,$room_id,$accuracy);
 
         return response()->json(null, 201);
     }
@@ -88,7 +91,7 @@ class TicketController extends Controller
     }
 
 
-    public function response_time($agent_id,$client_id,$room_id)
+    public function response_time($agent_id,$client_id,$room_id,$accuracy)
     {
         $CratAt = new DateTime(DB :: table ('rooms')->where('agent_id',$agent_id)->where('client_id',$client_id)
             ->orderByDesc('created_at')->take(1)->value('created_at'));
@@ -100,8 +103,8 @@ class TicketController extends Controller
 
         $ResponseTime=$def->format('%h').":".$def->format('%i').":".$def->format('%s');
 
-       DB:: table ('tickets')->where('id',$room_id)->where('agent_id',$agent_id)
-           ->where('client_id',$client_id)->orderByDesc('updated_at')->take(1)->update(['response_time'=>$ResponseTime]);
+        Ticket::where('agent_id',$agent_id)->where('client_id',$client_id)->orderByDesc('updated_at')->take(1)
+           ->update(['response_time'=>$ResponseTime,'accuracy'=>$accuracy]);
         return ;
     }
 }

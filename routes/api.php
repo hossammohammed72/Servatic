@@ -23,14 +23,12 @@ Route::middleware('auth:api')->group(function(){
     Route::post('tickets/update/{id}','TicketController@update');
     Route::resource('moderators','ModeratorController');
     Route::resource('clients','ClientController');
-    Route::resource('companies','CompanyController');
     Route::get('roomClient/{room}','ChatController@ِgetRoomClient');
-
     Route::get('agents/company/{id}', 'AgentController@companyAgents');
 });
 
 Route::resource('rooms','RoomController');
-
+Route::resource('companies','CompanyController');
 Route::get('makeusers','ChatController@testAgentUser');
 Route::post('addtoroom/','ChatController@ِaddClientToRoom');
 Route::post('pusher_auth/','ChatController@ِpusherAuth');
