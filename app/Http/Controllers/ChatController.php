@@ -46,9 +46,8 @@ class ChatController extends Controller
                 'creator_id'=>$freeAgent->user->email,
                 'name'=>'Servatic',
                 'user_ids'=>[$client->email],
-            ]);
-
-            $room->id =(int)$roomData['body']['id'];
+            ]);            
+            $room->id =$roomData['body']['id'];
             $room->client_id = $client->id;
             $room->agent_id = $freeAgent->user_id;
             $room->save();
@@ -58,13 +57,13 @@ class ChatController extends Controller
 
             company::where('id',$request->company_id)->where('client_in_queue','>',0)
                 ->decrement('client_in_queue',1);
+            return response()->json(['msg'=>'success','roomId'=>$roomData['body']['id']],200);
 
         }
         else {
             company::where('id',$request->company_id)->increment('client_in_queue',1);
             return response()->json(['msg'=>'no free agents available'],503);   
         }
-        return response()->json(['msg'=>'success'],200);
 
     }
     private function getClient(Request $request){
