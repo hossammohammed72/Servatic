@@ -55,13 +55,13 @@ class ChatController extends Controller
 
             company::where('id',$request->company_id)->where('client_in_queue','>',0)
                 ->decrement('client_in_queue',1);
+            return response()->json(['msg'=>'success','roomId'=>$room->id],200);
 
         }
         else {
             company::where('id',$request->company_id)->increment('client_in_queue',1);
             return response()->json(['msg'=>'no free agents available'],503);   
         }
-        return response()->json(['msg'=>'success'],200);
 
     }
     private function getClient(Request $request){
