@@ -12,6 +12,8 @@ use App\Models\Room;
 use Chatkit\ChatkitException;
 use DB;
 use Validator;
+Use \Carbon\Carbon;
+use DateTime;
 
 
 class ChatController extends Controller
@@ -94,6 +96,13 @@ class ChatController extends Controller
         $ticket->company_id = $client->company_id;
         $ticket->agent_id = $agent->user_id;
         $ticket->client_id = $client->id;
+
+        ///$now = new DateTime('now');
+        $now = Carbon::now();
+        $now = new DateTime($now);
+        $waiting_time = new DateTime($waiting_time);
+        $def = $waiting_time->diff($now);
+        $waiting_time = $def->format('%h').":".$def->format('%i').":".$def->format('%s');
         $ticket->waiting_time = $waiting_time;
         return $ticket->save();
     }
