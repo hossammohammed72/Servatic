@@ -35,5 +35,6 @@ Route::post('pusher_auth/','ChatController@ِpusherAuth');
 
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
+Route::post('logout', 'AuthController@logout');
 
 //Route::put('test/','TicketController@update');

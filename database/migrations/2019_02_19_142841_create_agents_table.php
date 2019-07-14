@@ -17,8 +17,7 @@ class CreateAgentsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->primary('user_id');
             $table->integer('company_id')->unsigned();
-            
-            $table->boolean('busy')->default(false);
+            $table->boolean('busy')->default(true);
             $table->timestamps();
         });
     }
