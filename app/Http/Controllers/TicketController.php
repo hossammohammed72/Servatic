@@ -61,8 +61,7 @@ class TicketController extends Controller
         $validator = validator::make($request->all(), [
             'complaint'=>'required|string|max:100',
             'action' => 'required|string',
-            'room_id' => 'required|exists:rooms,id',
-            'accuracy' =>'required|double',
+            'accuracy' =>'required',
         ]);
         if($validator->fails())
             return response()->json([$validator->errors()], 401);
@@ -76,9 +75,8 @@ class TicketController extends Controller
 
         $agent_id=$ticket->agent_id;
         $client_id=$ticket->client_id;
-        $room_id=$request->room_id;
         $accuracy = $request->accuracy;
-        self::response_time($agent_id,$client_id,$room_id,$accuracy);
+        self::response_time($agent_id,$client_id,$accuracy);
 
         return response()->json(null, 201);
     }
@@ -91,7 +89,7 @@ class TicketController extends Controller
     }
 
 
-    public function response_time($agent_id,$client_id,$room_id,$accuracy)
+    public function response_time($agent_id,$client_id,$accuracy)
     {
         $CratAt = new DateTime(DB :: table ('rooms')->where('agent_id',$agent_id)->where('client_id',$client_id)
             ->orderByDesc('created_at')->take(1)->value('created_at'));
