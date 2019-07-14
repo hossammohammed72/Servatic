@@ -14,6 +14,7 @@ use DB;
 use Validator;
 Use \Carbon\Carbon;
 use DateTime;
+use DateTimeZone;
 
 
 class ChatController extends Controller
@@ -91,11 +92,10 @@ class ChatController extends Controller
         $ticket->agent_id = $agent->user_id;
         $ticket->client_id = $client->id;
 
-        ///$now = new DateTime('now');
-        $now = Carbon::now();
-        $now = new DateTime($now);
-        $waiting_time = new DateTime($waiting_time);
-        $def = $waiting_time->diff($now);
+
+        $now = new DateTime('now', new DateTimeZone('Africa/Cairo'));
+        $waiting_time = new DateTime($waiting_time,new DateTimeZone('Africa/Cairo'));
+        $def = $now->diff($waiting_time);
         $waiting_time = $def->format('%h').":".$def->format('%i').":".$def->format('%s');
         $ticket->waiting_time = $waiting_time;
         return $ticket->save();
