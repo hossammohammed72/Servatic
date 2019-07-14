@@ -55,7 +55,7 @@ class ChatController extends Controller
 
             company::where('id',$request->company_id)->where('client_in_queue','>',0)
                 ->decrement('client_in_queue',1);
-            return response()->json(['msg'=>'success','roomId'=>$room->id],200);
+            return response()->json(['msg'=>'success','roomId'=>$roomData['body']['id']],200);
 
         }
         else {
