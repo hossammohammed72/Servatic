@@ -101,6 +101,7 @@ class TicketController extends Controller
 
         $ResponseTime=$def->format('%h').":".$def->format('%i').":".$def->format('%s');
 
+        $accuracy = floatval($accuracy);
         Ticket::where('agent_id',$agent_id)->where('client_id',$client_id)->orderByDesc('updated_at')->take(1)
            ->update(['response_time'=>$ResponseTime,'accuracy'=>$accuracy]);
         return ;
