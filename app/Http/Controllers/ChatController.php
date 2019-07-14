@@ -47,7 +47,6 @@ class ChatController extends Controller
             ]);
             
             $room->id =$roomData['body']['id'];
-            dd($room->id,$roomData);
             $room->client_id = $client->id;
             $room->agent_id = $freeAgent->user_id;
             $room->save();
