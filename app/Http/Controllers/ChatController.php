@@ -45,8 +45,9 @@ class ChatController extends Controller
                 'name'=>'Servatic',
                 'user_ids'=>[$client->email],
             ]);
-
-            $room->id =(int)$roomData['body']['id'];
+            
+            $room->id =$roomData['body']['id'];
+            dd($room->id,$roomData);
             $room->client_id = $client->id;
             $room->agent_id = $freeAgent->user_id;
             $room->save();
