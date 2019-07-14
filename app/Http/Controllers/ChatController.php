@@ -39,11 +39,6 @@ class ChatController extends Controller
             ->where('company_id',$request->company_id)->first();
 
         if(!is_null($freeAgent)){
-            $this->chatkit->createRoom([
-                'creator_id'=>$freeAgent->user->email,
-                'name'=>'Servatic',
-                'user_ids'=>[$client->email],
-            ]);
             $room = new Room();
             $roomData =  $this->chatkit->createRoom([
                 'creator_id'=>$freeAgent->user->email,
