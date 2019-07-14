@@ -28,7 +28,7 @@ class ChatController extends Controller
     public function ِaddClientToRoom(Request $request){
         $validator = validator::make($request->all(), [
             'name' => 'required|max:255|string',
-            'email' => 'required|email|unique:clients',
+            'email' => 'required|email',
             'company_id' =>'required|exists:companies,id',
             'waiting_time' =>'required|string',
         ]);
@@ -41,11 +41,6 @@ class ChatController extends Controller
             ->where('company_id',$request->company_id)->first();
 
         if(!is_null($freeAgent)){
-            $this->chatkit->createRoom([
-                'creator_id'=>$freeAgent->user->email,
-                'name'=>'Servatic',
-                'user_ids'=>[$client->email],
-            ]);
             $room = new Room();
             $roomData =  $this->chatkit->createRoom([
                 'creator_id'=>$freeAgent->user->email,
