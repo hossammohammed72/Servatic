@@ -33,6 +33,7 @@ return [
             'X-Auth-Token',
             'Origin',
             'Authorization',
+            'Access-Control-Allow-Origin',
         ],
 
         /*

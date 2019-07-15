@@ -18,8 +18,8 @@ use App\User;
 */
 //header('Access-Control-Allow-Origin:  *');
 //header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers:  "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Authorization, Access-Control-Request-Method, Access-Control-Request-Headers');
-header('Access-Control-Allow-Credentials:  true');
+// header('Access-Control-Allow-Headers:  "Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Authorization, Access-Control-Request-Method, Access-Control-Request-Headers');
+// header('Access-Control-Allow-Credentials:  true');
 
 // response.setHeader("Access-Control-Allow-Origin", "*");
 // response.setHeader("Access-Control-Allow-Credentials", "true");
