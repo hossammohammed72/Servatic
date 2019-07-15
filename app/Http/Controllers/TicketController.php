@@ -25,7 +25,7 @@ class TicketController extends Controller
     // id is company id
     public function show($id) {
             $ticket = DB::table('tickets')
-            ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent')
+            ->select('tickets.id','tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent')
             ->join('users', 'users.id', '=', 'tickets.agent_id')
             ->join('clients', 'clients.id', '=', 'tickets.client_id')
             ->where('tickets.company_id', '=', $id)
