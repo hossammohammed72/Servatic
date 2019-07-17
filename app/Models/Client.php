@@ -19,4 +19,9 @@ class Client extends model
     public function room(){
         return $this->hasMany('App\Models\Room');
     }
+
+    public function queue(){
+
+        $this->belongsTo('App\Models\Queue');
+    }
 }

@@ -23,4 +23,10 @@ class Company extends Model
 
         $this->hasMany('App\Models\Ticket');
     }
+
+    public function queue(){
+
+        $this->hasMany('App\Models\Queue');
+    }
+
 }
