@@ -50,7 +50,12 @@ class DatabaseRelations extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
         });
 
-
+        Schema::table('queues',function(Blueprint $table){
+            $table->foreign('client_id')->references('id')->on('clients')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')
+                ->onUpdate('cascade')->onDelete('cascade');
+        });
 
     }
 
