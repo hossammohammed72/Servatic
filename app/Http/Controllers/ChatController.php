@@ -87,15 +87,30 @@ class ChatController extends Controller
         }else{
             return Client::where('email',$request->email)->first();
         }
-
     }
-    private function makeTicket(Client $client,Agent $agent,$start_chat_time){
+    private function makeTicket(Client $client,Agent $agent,$waiting_time){
         $ticket = new Ticket();
         $ticket->company_id = $client->company_id;
         $ticket->agent_id = $agent->user_id;
         $ticket->client_id = $client->id;
 
-        $ticket->waiting_time = waitingTime($start_chat_time);
+
+        $now = new DateTime('now', new DateTimeZone('Africa/Cairo'));
+        $waiting_time = new DateTime($waiting_time,new DateTimeZone('Africa/Cairo'));
+        $def = $now->diff($waiting_time);
+        $waiting_time = $def->format('%i').".".$def->format('%s');
+
+        $waiting_time = (float) $waiting_time;
+        $ticket->waiting_time = $waiting_time;
+        return $ticket->save();
+    }
+   /* private function makeTicket(Client $client,Agent $agent,$start_chat_time){
+        $ticket = new Ticket();
+        $ticket->company_id = $client->company_id;
+        $ticket->agent_id = $agent->user_id;
+        $ticket->client_id = $client->id;
+
+        $ticket->waiting_time = $this->waitingTime($start_chat_time);
         return $ticket->save();
     }
 
@@ -105,7 +120,7 @@ class ChatController extends Controller
         $difference_time = $now->diff($start_chatting);
         $waiting_time = $difference_time->format('%h').":".$difference_time->format('%i').":".$difference_time->format('%s');
         return $waiting_time;
-    }
+    }*/
 
     /**
      *  pusher auth
@@ -136,7 +151,7 @@ class ChatController extends Controller
 
     }
     //Add client to queue 
-    public function addToQueue(Request $request){
+    /*public function addToQueue(Request $request){
         $validator = validator::make($request->all(), [
             'name' => 'required|max:255|string',
             'email' => 'required|email',
@@ -190,15 +205,15 @@ class ChatController extends Controller
         
         $start_chat_time = $request->start_chat_time;
 
-        $agent1 = Agent::where('user_id', $request->agent_id)->first();
-        $client = Client::where('id',$client->client_id)->first();
+        $agent1 = Agent::with('user')->where('user_id',$request->agent_id)->first();
+
         $this->makeTicket($client,$agent1,$start_chat_time);
 
         Agent::where('user_id',$agent->user_id)->update(['busy'=>true]);
         Room::where('id',$room->id)->delete();
         $client->delete();
         return response()->json(['msg'=>'success'],200);      
-    }
+    }*/
     
 
 }
