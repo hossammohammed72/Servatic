@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Company;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Float_;
 use Validator;
-
+use DB;
+use DateTime;
 
 class CompanyController extends Controller
 {
@@ -76,6 +79,44 @@ class CompanyController extends Controller
         return view('CompanyStor');
 
     }
+
+
+    public function stats($company_id)
+    {
+       $agents_id = DB :: table('agents')->where('company_id',$company_id)->select('user_id')->get();
+
+        $company = [];
+        $companyName = DB::table('companies')->where('id',$company_id)->value('name');
+        $avgWaitingTime = DB::table('tickets')->where('company_id',$company_id)->avg('waiting_time');
+        $avgResponseTime = DB::table('tickets')->where('company_id',$company_id)->avg('response_time');
+        $avgAccuracy = DB::table('tickets')->where('company_id',$company_id)->AVG('accuracy');
+
+        $company [0] = $companyName ;
+        $company [1] = $avgWaitingTime ;
+        $company [2] = $avgResponseTime ;
+        $company [3] = $avgAccuracy ;
+
+        $agents = [];
+        $i = 0;
+       foreach ( $agents_id as $id )
+       {
+            $agentAvgResponseTime = DB::table('tickets')->where('agent_id',$id->user_id)->avg('response_time');
+            $agentName = DB :: table('users')->where('id',$id->user_id)->value('name');
+            $numberOfTickets = Ticket::where('agent_id',$id->user_id)->count('id');
+            $agents[$i][0] = $agentName;
+            $agents[$i][1] = $agentAvgResponseTime;
+            $agents[$i][2] = $numberOfTickets;
+            $i = $i + 1 ;
+        }
+        $data = [];
+       $data[0] = $company ;
+       $data[1] = $agents  ;
+       return response()->json($data);
+
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.

@@ -20,9 +20,9 @@ class CreateTicketsTable extends Migration
             $table->integer('company_id')->unsigned();
             $table->string('complaint')->nullable();
             $table->string('action')->nullable();
-            $table->string('response_time')->nullable();
+            $table->float('response_time')->nullable();
             $table->float ('accuracy')->nullable();
-            $table->string('waiting_time')->nullable();
+            $table->float('waiting_time')->nullable();
             $table->timestamps();
         });
     }

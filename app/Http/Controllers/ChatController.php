@@ -96,7 +96,9 @@ class ChatController extends Controller
         $now = new DateTime('now', new DateTimeZone('Africa/Cairo'));
         $waiting_time = new DateTime($waiting_time,new DateTimeZone('Africa/Cairo'));
         $def = $now->diff($waiting_time);
-        $waiting_time = $def->format('%h').":".$def->format('%i').":".$def->format('%s');
+        $waiting_time = $def->format('%i').".".$def->format('%s');
+
+        $waiting_time = (float) $waiting_time;
         $ticket->waiting_time = $waiting_time;
         return $ticket->save();
     }
