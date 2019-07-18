@@ -39,7 +39,11 @@ Route::middleware('auth:api')->group(function(){
 Route::resource('rooms','RoomController');
 Route::resource('companies','CompanyController');
 Route::get('makeusers','ChatController@testAgentUser');
-Route::post('addtoroom/','ChatController@ِaddClientToRoom');
+
+Route::post('add_client_to_queue/','ChatController@addToQueue');
+Route::post('fetch_client/', 'ChatController@fetchClientFromQueue');
+Route::post('number_clients/','ChatController@numberClients');
+
 Route::post('pusher_auth/','ChatController@ِpusherAuth');
 
 Route::post('register', 'AuthController@register');
