@@ -79,7 +79,7 @@ class ChatController extends Controller
             $client->company_id = $request->company_id;
             $client->save();
             try{
-            $this->chatkit->createUser(['id'=>$request->email,'name'=>$request->name]);
+                $this->chatkit->createUser(['id'=>$request->email,'name'=>$request->name]);
             } catch (ChatkitException $e){
                 
             }
@@ -104,23 +104,6 @@ class ChatController extends Controller
         $ticket->waiting_time = $waiting_time;
         return $ticket->save();
     }
-   /* private function makeTicket(Client $client,Agent $agent,$start_chat_time){
-        $ticket = new Ticket();
-        $ticket->company_id = $client->company_id;
-        $ticket->agent_id = $agent->user_id;
-        $ticket->client_id = $client->id;
-
-        $ticket->waiting_time = $this->waitingTime($start_chat_time);
-        return $ticket->save();
-    }
-
-    public function waitingTime($login_time){
-        $now = new DateTime('now', new DateTimeZone('Africa/Cairo'));
-        $start_chatting= new DateTime($login_time,new DateTimeZone('Africa/Cairo'));
-        $difference_time = $now->diff($start_chatting);
-        $waiting_time = $difference_time->format('%h').":".$difference_time->format('%i').":".$difference_time->format('%s');
-        return $waiting_time;
-    }*/
 
     /**
      *  pusher auth
@@ -150,8 +133,9 @@ class ChatController extends Controller
         return response()->json(['client'=>$client,'ticket'=>$ticket]);
 
     }
+
     //Add client to queue 
-    /*public function addToQueue(Request $request){
+    public function addToQueue(Request $request){
         $validator = validator::make($request->all(), [
             'name' => 'required|max:255|string',
             'email' => 'required|email',
@@ -176,11 +160,11 @@ class ChatController extends Controller
         
     }
 
-   //number clients which every client waits
+    //number clients which client waits
     public function numberClients(request $request){ 
         if(Queue::where('company_id', $request->company_id)->where('client_id', $request->client_id)->count()){
-            $company_client = Queue::where('company_id', $request->company_id)->where('client_id','<',$request->client_id)->count();   
-            return response()->json($company_client, 200);
+            $clients = Queue::where('company_id', $request->company_id)->where('client_id','<',$request->client_id)->count();   
+            return response()->json(['clients number'=>$clients], 200);
         }else{
             return response()->json(['msg'=>'client not found'],404);
         }
@@ -188,32 +172,33 @@ class ChatController extends Controller
 
     public function fetchClientFromQueue(request $request){
         $client = Queue::where('company_id',$request->company_id)->first(); 
-        $client = Client::where('id',$client->client_id)->first();
-        
-        $agent = User::where('id', $request->agent_id)->first();
-        
-        $room = new Room();
-        $roomData =  $this->chatkit->createRoom([
-            'creator_id'=>$agent->email,
-            'name'=>'Servatic',
-            'user_ids'=>[$client->email],
-        ]);            
-        $room->id =$roomData['body']['id'];
-        $room->client_id = $client->id;
-        $room->agent_id = $agent->id;
-        $room->save();
-        
-        $start_chat_time = $request->start_chat_time;
+        if($client){
+            $client_data = Client::where('id',$client->client_id)->first();
+            $agent_data = User::where('id', $request->agent_id)->first();
+            
+            $room = new Room();
+            $roomData =  $this->chatkit->createRoom([
+                'creator_id'=>$agent_data->email,
+                'name'=>'Servatic',
+                'user_ids'=>[$client_data->email],
+            ]);            
+            $room->id =$roomData['body']['id'];
+            $room->client_id = $client_data->id;
+            $room->agent_id = $agent_data->id;
+            $room->save();
 
-        $agent1 = Agent::with('user')->where('user_id',$request->agent_id)->first();
+            $startChatTime = $request->startChatTime;
+            $agent = Agent::with('user')->where('user_id',$request->agent_id)->first();
 
-        $this->makeTicket($client,$agent1,$start_chat_time);
+            $this->makeTicket($client_data,$agent,$startChatTime);
 
-        Agent::where('user_id',$agent->user_id)->update(['busy'=>true]);
-        Room::where('id',$room->id)->delete();
-        $client->delete();
-        return response()->json(['msg'=>'success'],200);      
-    }*/
-    
-
+            Agent::where('user_id',$agent->user_id)->update(['busy'=>true]);
+            Room::where('id',$roomData['body']['id'])->delete();
+            Queue::where('company_id',$request->company_id)->where('client_id',$client->client_id)->delete();
+            
+            return response()->json(['msg'=>'success'],200);     
+        }else{
+            return response()->json(['msg'=>'no clients'],404);
+        }
+    }
 }

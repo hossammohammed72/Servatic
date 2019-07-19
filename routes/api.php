@@ -40,9 +40,9 @@ Route::resource('rooms','RoomController');
 Route::resource('companies','CompanyController');
 Route::get('makeusers','ChatController@testAgentUser');
 
-Route::post('add_client_to_queue/','ChatController@addToQueue');
-Route::post('fetch_client/', 'ChatController@fetchClientFromQueue');
-Route::post('number_clients/','ChatController@numberClients');
+Route::post('addClientToQueue/','ChatController@addToQueue');
+Route::post('fetchClient/', 'ChatController@fetchClientFromQueue');
+Route::post('numberClients/','ChatController@numberClients');
 Route::post('addtoroom/','ChatController@ِaddClientToRoom');
 
 Route::post('pusher_auth/','ChatController@ِpusherAuth');
