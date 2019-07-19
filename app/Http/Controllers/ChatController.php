@@ -196,7 +196,7 @@ class ChatController extends Controller
             Room::where('id',$roomData['body']['id'])->delete();
             Queue::where('company_id',$request->company_id)->where('client_id',$client->client_id)->delete();
             
-            return response()->json(['msg'=>'success'],200);     
+            return response()->json(['msg'=>'success','roomId'=>$roomData['body']['id']],200);     
         }else{
             return response()->json(['msg'=>'no clients'],404);
         }
