@@ -6,6 +6,7 @@ use App\Models\agent;
 
 use App\Http\Resources\AgentResource;
 use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -52,5 +53,8 @@ Route::post('pusher_auth/','ChatController@ِpusherAuth');
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 Route::post('logout', 'AuthController@logout');
+
+
+Route::get('stats/{id}','CompanyController@stats');
 
 //Route::put('test/','TicketController@update');

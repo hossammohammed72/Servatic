@@ -107,9 +107,9 @@ class TicketController extends Controller
             ->orderByDesc('updated_at')->take(1)->value('updated_at'));
 
         $def = $CratAt->diff($UpDate);
+        $ResponseTime=$def->format('%i').".".$def->format('%s');
 
-        $ResponseTime=$def->format('%h').":".$def->format('%i').":".$def->format('%s');
-
+        $ResponseTime = floatval($ResponseTime);
         $accuracy = floatval($accuracy);
         Ticket::where('agent_id',$agent_id)->where('client_id',$client_id)->orderByDesc('updated_at')->take(1)
            ->update(['response_time'=>$ResponseTime,'accuracy'=>$accuracy]);
