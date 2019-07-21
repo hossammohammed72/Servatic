@@ -88,6 +88,15 @@ class TicketController extends Controller
         return response()->json(null, 204);
     }
 
+    public function companyTickets($id){
+        $ticket = DB::table('tickets')
+            ->select('tickets.action','tickets.complaint','clients.name as client' ,'users.name as agent')
+            ->join('users', 'users.id', '=', 'tickets.agent_id')
+            ->join('clients', 'clients.id', '=', 'tickets.client_id')
+            ->where('tickets.company_id', '=', $id)
+            ->get();
+        return response()->json($ticket, 200);
+    }
 
     public function response_time($agent_id,$client_id,$accuracy)
     {
