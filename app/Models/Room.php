@@ -7,6 +7,8 @@ use Illuminate\database\Eloquent\softDeletes;
 
 class Room extends Model
 {
+    public $incrementing = false;
+
     public function client(){
         return $this->hasMany('App\Models\Client');
     }

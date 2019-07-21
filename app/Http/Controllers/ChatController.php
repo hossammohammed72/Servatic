@@ -164,9 +164,17 @@ class ChatController extends Controller
     public function numberClients(request $request){ 
         if(Queue::where('company_id', $request->company_id)->where('client_id', $request->client_id)->count()){
             $clients = Queue::where('company_id', $request->company_id)->where('client_id','<',$request->client_id)->count();   
-            return response()->json(['clients number'=>$clients], 200);
+            return response()->json($clients, 403);
         }else{
-            return response()->json(['msg'=>'client not found'],404);
+            if(Room::where('client_id', $request->client_id)->count()){
+                $room_id = Room::where('client_id', $request->client_id)->first();
+                $room_id->delete();
+                $roomId = $room_id->id;
+                return response()->json($roomId,200);
+            }else{
+                return response()->json(['msg'=>'client not found'],404);
+            }
+            
         }
     }
 
@@ -193,7 +201,7 @@ class ChatController extends Controller
             $this->makeTicket($client_data,$agent,$startChatTime);
 
             Agent::where('user_id',$agent->user_id)->update(['busy'=>true]);
-            Room::where('id',$roomData['body']['id'])->delete();
+         
             Queue::where('company_id',$request->company_id)->where('client_id',$client->client_id)->delete();
             
             return response()->json(['msg'=>'success','roomId'=>$roomData['body']['id']],200);     
