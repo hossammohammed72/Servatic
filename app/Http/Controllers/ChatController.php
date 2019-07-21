@@ -102,7 +102,8 @@ class ChatController extends Controller
 
         $waiting_time = (float) $waiting_time;
         $ticket->waiting_time = $waiting_time;
-        return $ticket->save();
+         $ticket->save();
+         return $ticket;
     }
 
     /**
@@ -197,20 +198,20 @@ class ChatController extends Controller
                 'user_ids'=>[$client_data->email],
             ]);            
             $room->id =$roomData['body']['id'];
-            $room->client_id = $client_data->id;
+            $room->client_id = $client->id;
             $room->agent_id = $agent_data->id;
             $room->save();
 
-            $startChatTime = $request->startChatTime;
+            $startChatTime = $client_data->created_at;
             $agent = Agent::with('user')->where('user_id',$request->agent_id)->first();
 
-            $this->makeTicket($client_data,$agent,$startChatTime);
+            $ticket = $this->makeTicket($client_data,$agent,$startChatTime);
 
             Agent::where('user_id',$agent->user_id)->update(['busy'=>true]);
          
             Queue::where('company_id',$request->company_id)->where('client_id',$client->client_id)->delete();
             
-            return response()->json(['msg'=>'success','roomId'=>$roomData['body']['id']],200);     
+            return response()->json(['msg'=>'success','roomId'=>$roomData['body']['id'],'ticket'=>$ticket],200);     
         }else{
             return response()->json(['msg'=>'no clients'],404);
         }
