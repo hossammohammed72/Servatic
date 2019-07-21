@@ -177,6 +177,12 @@ class ChatController extends Controller
             
         }
     }
+    public function companyQueue(Company $company){
+        $count = Queue::where('company_id', $company->id)->count();
+        Company::where('id',$company->id)->update(['client_in_queue'=>$count]);
+        return response()->json(['count'=> $count],200);
+
+    }
 
     public function fetchClientFromQueue(request $request){
         $client = Queue::where('company_id',$request->company_id)->first(); 

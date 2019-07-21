@@ -34,6 +34,7 @@ Route::middleware('auth:api')->group(function(){
     Route::resource('clients','ClientController');
     Route::get('roomClient/{room}','ChatController@ِgetRoomClient');
     Route::get('agents/company/{id}', 'AgentController@companyAgents');
+    Route::get('numberInQueue/{company}', 'ChatController@companyQueue');
 });
 
 Route::resource('rooms','RoomController');
