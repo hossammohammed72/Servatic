@@ -198,7 +198,7 @@ class ChatController extends Controller
                 'user_ids'=>[$client_data->email],
             ]);            
             $room->id =$roomData['body']['id'];
-            $room->client_id = $client->id;
+            $room->client_id = $client->client_id;
             $room->agent_id = $agent_data->id;
             $room->save();
 
